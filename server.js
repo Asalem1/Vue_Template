@@ -34,7 +34,7 @@ server.register(require('inert'), (err) => {
         method: 'GET',
         path: '/',
         handler: function (request, reply) {
-            reply.file('./views/index.html');
+            reply.file('./index.html');
         }
     });
     server.start((err) => {

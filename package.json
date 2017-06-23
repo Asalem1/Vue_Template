@@ -1,9 +1,29 @@
 {
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+  },
   "dependencies": {
     "good": "^7.2.0",
     "good-console": "^6.4.0",
     "good-squeeze": "^5.0.2",
     "hapi": "^16.4.3",
-    "inert": "^4.2.0"
+    "inert": "^4.2.0",
+    "vue": "^2.3.4",
+    "vue-router": "^2.6.0",
+    "webpack": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.0",
+    "babel-preset-env": "^1.5.2",
+    "cross-env": "^5.0.1",
+    "css-loader": "^0.28.4",
+    "dev-server": "0.0.2",
+    "file-loader": "^0.11.2",
+    "vue-loader": "^12.2.1",
+    "vue-template-compiler": "^2.3.4",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   }
 }
