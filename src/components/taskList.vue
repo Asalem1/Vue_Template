@@ -1,13 +1,7 @@
 <template>
   <div>
-    <div>
-      <input v-model="message" v-on:keyup.enter="addToList(message)">
-      <button v-on:click="addToList(message)">Add</button>
-    </div>
-    <ul>
-      <transition-group name="fade">
-        <list-entry v-for="item in list" v-bind:key="item" :delete-item="deleteItem" :item="item"></list-entry>
-      </transition-group>
+    <ul class="task-list">
+      <task-list-entry v-for="task in tasks" v-bind:key="task" :tasks="tasks" :task="task"></task-list-entry>
     </ul>
   </div>
 </template>
@@ -15,43 +9,23 @@
 
 
 <script>
-  import ListEntry from './ListEntry.vue'
+  import TaskListEntry from './taskListEntry.vue'
   export default {
-    props: ['list'],
+    props: ['tasks'],
     data() {
-      return {
-        message: ''
-      }
-    },
-    methods: {
-      addToList: function(msg) {
-        this.list.push({text: msg});
-      },
-      deleteItem: function(item) {
-        var index = this.list.indexOf(item);
-        this.list.splice(index, 1);
-      }
+      return {}
     },
     components: {
-      ListEntry
+      TaskListEntry
     }
   }
 </script>
 
 <style scoped>
-  div {
-    margin-top: 30px;
-    display: flex;
-    justify-content: center;
-  }
-  div > div {
-    height: 20px;
-    margin-top: 40px;
-  }
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
+.task-list {
+  background: #fff;
+  padding: 8px;
+  border: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1);
+}
 </style>
