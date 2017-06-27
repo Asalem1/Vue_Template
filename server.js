@@ -45,6 +45,14 @@ server.register(require('inert'), (err) => {
     });
 });
 
+server.route({
+    method: 'POST',
+    path: '/',
+    handler: function (request, reply) {
+        console.log('here is the request: ', request);
+        console.log('here is the reply: ', reply);
+    }
+});
 // server.register({
 //     register: Good,
 //     options: {

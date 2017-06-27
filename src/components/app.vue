@@ -17,31 +17,28 @@
   import AddTask from './addTask.vue'
   import TaskList from './taskList.vue'
   export default {
-    props: ['tasks'],
     data() {
       return {
-        message: ''
+        tasks: []
       }
     },
-    methods: {
-      getTasks: function() {
-        fetch('/api/tasks')
-          .then((res) => res.json())
-          .then((res) => {
-            console.log('here is the res in GET: ', res);
-            res.forEach((task) => {
-              console.log('here is the task in GET: ', task);
-              this.tasks.push({
-                task: task.task,
-                _id: task._id
-              });
-            })
-          })
-        .catch((err) => {
-          console.error('here is the error: ', err);
-        })
-      }
-    },
+    created()  {
+      // fetch('/api/tasks')
+      //   .then((res) => res.json())
+      //   .then((res) => {
+      //     console.log('here is the res in GET: ', res);
+      //     res.forEach((task) => {
+      //       console.log('here is the task in GET: ', task);
+      //       this.tasks.push({
+      //         task: task.task,
+      //         _id: task._id
+      //       });
+      //     })
+      //   })
+      // .catch((err) => {
+      //   console.error('here is the error: ', err);
+      // })
+  },
     components: {
       AddTask,
       TaskList

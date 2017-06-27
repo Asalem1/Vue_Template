@@ -5,7 +5,7 @@
 </template>
 <template>
   <div>
-    <li v-if="!task.editing" class="task-list-entry media">
+    <li v-if="!task.isEditing" class="task-list-entry media">
       <div class="media-body">
         <div>{{task.task}}</div>
       </div>
@@ -13,11 +13,11 @@
       <button class="btn" v-on:click="deleteTask(task)"><span class="glyphicon glyphicon-remove-circle"></span> delete</button>
     </li>
 
-    <li v-if="task.editing" class="task-list-entry media">
+    <li v-if="task.isEditing" class="task-list-entry media">
       <div class="media-body">
-        <input ngclass="form-control"  type="text" ng-model="task.task" />
+        <input class="form-control" v-model="input" type="text">
       </div>
-      <button class="btn" v-on:click="updateTask(task)"><span class=" glyphicon glyphicon-ok-circle"></span> update </button>
+      <button class="btn" v-on:click="updateTask()"><span class=" glyphicon glyphicon-ok-circle"></span> update </button>
       <button class="btn" v-on:click="toggleEdit(task)"><span class=" glyphicon glyphicon-ban-circle"></span> cancel</button>
     </li>
   </div>
@@ -26,41 +26,58 @@
 <script>
   export default {
     props: ['task', 'tasks'],
+    data() {
+      return {
+        input: ''
+      }
+    },
+    updated() {
+      if (!this.task.isEditing) {
+        return {}
+      } else {
+        return {
+          input: ''
+        }
+      }
+    },
     methods: {
       toggleEdit: function(task) {
-        task.editing = !task.editing;
+        task.isEditing = !task.isEditing;
       },
-      updateTask: function(task) {
-        if (!task.task) {
+      updateTask: function() {
+        if (!this.input) {
           return alert('please enter a task');
         }
-        task.editing = false;
-        fetch('/api/tasks/' + task.task._id, {
-          method: 'PUT',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            task: task
-          })
-        })
-        .then((res) => res.json())
-        .then((res) => {
-          this.toggleEdit(task);
-        })
+        this.task.task = this.input,
+        this.toggleEdit(this.task);
+        // task.isEditing = false;
+        // fetch('/api/tasks/' + task.task._id, {
+        //   method: 'PUT',
+        //   headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json'
+        //   },
+        //   body: JSON.stringify({
+        //     task: task
+        //   })
+        // })
+        // .then((res) => res.json())
+        // .then((res) => {
+        //   this.toggleEdit(task);
+        // })
       },
       deleteTask: function(taskToDelete) {
         let deleted;
-        fetch('/api/tasks/' + taskToDelete._id, {
-          method: 'DELETE',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        })
-        .then((res) => res.json())
-        .then((res) => {
+        console.log(taskToDelete.task)
+        // fetch('/api/tasks/' + taskToDelete._id, {
+        //   method: 'DELETE',
+        //   headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json'
+        //   }
+        // })
+        // .then((res) => res.json())
+        // .then((res) => {
           this.tasks.forEach(function(todo, i) {
             if (todo.task === taskToDelete.task) {
               deleted = i;
@@ -68,11 +85,8 @@
             }
           })
           this.tasks.splice(deleted, 1);
-        })
+        // })
       }
-    },
-    data() {
-      return {}
     }
   }
 </script>
