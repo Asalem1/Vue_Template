@@ -10,6 +10,7 @@
 <script>
   import AddTask from './addTask.vue'
   import TaskList from './taskList.vue'
+  import axios from 'axios'
   export default {
     props: ['tasks'],
     data() {
@@ -25,6 +26,15 @@
         }
         this.tasks.push(task);
         this.input = ''
+        axios.post('/api/tasks', {
+          body: JSON.stringify({task: task})
+        })
+        .then((res) => {
+          console.log('here is the res: ', res);
+        })
+        .catch((err) => {
+          console.error('here is the error: ', err);
+        })
         // fetch('/api/', {
         //   method: 'POST',
         //   headers: {
