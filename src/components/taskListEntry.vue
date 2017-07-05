@@ -50,8 +50,6 @@
         }
         console.log('here is the task: ', this.task)
         this.task.task = this.input,
-        // this.toggleEdit(this.task);
-        // task.isEditing = false;
         fetch('/api/tasks/' + this.task._id, {
           method: 'PUT',
           headers: {

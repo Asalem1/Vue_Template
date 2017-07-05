@@ -19,6 +19,9 @@
     },
     methods: {
       addTask: function(task) {
+        if (!task) {
+          return alert('please enter a task');
+        }
         task = {
           task: task,
           isEditing: false
