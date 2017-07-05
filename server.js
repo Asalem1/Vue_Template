@@ -2,14 +2,14 @@
 
 const Hapi = require('hapi');
 const Good = require('good');
-const Path = require('path');
+const path = require('path');
 
 // Create a server with a host and port
 const server = new Hapi.Server({
     connections: {
         routes: {
             files: {
-                relativeTo: Path.join(__dirname) //sets the relative path
+                relativeTo: path.join(__dirname) //sets the relative path
             }
         }
     }
@@ -34,17 +34,18 @@ server.register(require('inert'), (err) => {
         method: 'GET',
         path: '/',
         handler: function (request, reply) {
-            reply.file('./index.html');
+            // reply('hi')
+            reply.file('./views/index.html');
         }
     });
-    server.route({
-        method: 'POST',
-        path: '/api/tasks',
-        handler: function (request, reply) {
-            console.log('here is the request: ', request);
-            console.log('here is the reply: ', reply);
-        }
-    });
+    // server.route({
+    //     method: 'POST',
+    //     path: '/api/tasks',
+    //     handler: function (request, reply) {
+    //         console.log('here is the request: ', request);
+    //         console.log('here is the reply: ', reply);
+    //     }
+    // });
     server.start((err) => {
         if (err) {
             throw err;
