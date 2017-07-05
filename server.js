@@ -1,83 +1,32 @@
 'use strict';
 
-const Hapi = require('hapi');
-const Good = require('good');
+const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
+const index = require('./routes/index');
+const tasks = require('./routes/tasks');
 
-// Create a server with a host and port
-const server = new Hapi.Server({
-    connections: {
-        routes: {
-            files: {
-                relativeTo: path.join(__dirname) //sets the relative path
-            }
-        }
-    }
+const app = express();
+let port = process.env.PORT || 3000
+
+// Setup View Engine
+app.set('views', path.join(__dirname +  '/views'));
+app.set('view engine', 'ejs'); //specifies which view engine we want to use
+
+// Allows us to render html files
+app.engine('html', require('ejs').renderFile);
+
+// Set Static Folder
+app.use(express.static(__dirname));
+
+// Set our bodyParser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
+// Sets our Routes
+app.use('/', index);
+app.use('/api', tasks);
+
+app.listen(port, function() {
+  console.log('We have successfully connected to port: ', port);
 });
-server.connection({ port: 3000, host: 'localhost' });
-
-// Add the route
-// server.route({
-//     method: 'GET',
-//     path: '/{name}',
-//     handler: function (request, reply) {
-//         reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
-//     }
-// });
-
-// Set the static file path
-server.register(require('inert'), (err) => {
-    if (err) {
-        throw err;
-    }
-    server.route({
-        method: 'GET',
-        path: '/',
-        handler: function (request, reply) {
-            // reply('hi')
-            reply.file('./views/index.html');
-        }
-    });
-    // server.route({
-    //     method: 'POST',
-    //     path: '/api/tasks',
-    //     handler: function (request, reply) {
-    //         console.log('here is the request: ', request);
-    //         console.log('here is the reply: ', reply);
-    //     }
-    // });
-    server.start((err) => {
-        if (err) {
-            throw err;
-        }
-        console.log('Server running at:', server.info.uri);
-    });
-});
-
-// server.register({
-//     register: Good,
-//     options: {
-//         reporters: {
-//             console: [{
-//                 module: 'good-squeeze',
-//                 name: 'Squeeze',
-//                 args: [{
-//                     response: '*',
-//                     log: '*'
-//                 }]
-//             }, {
-//                 module: 'good-console'
-//             }, 'stdout']
-//         }
-//     }
-// }, (err) => {
-//     if (err) {
-//         throw err; // something bad happened loading the plugin
-//     }
-//     server.start((err) => {
-//         if (err) {
-//             throw err;
-//         }
-//         server.log('info', 'Server running at: ' + server.info.uri);
-//     });
-// });
