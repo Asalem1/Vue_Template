@@ -23,21 +23,20 @@
       }
     },
     created()  {
-      // fetch('/api/tasks')
-      //   .then((res) => res.json())
-      //   .then((res) => {
-      //     console.log('here is the res in GET: ', res);
-      //     res.forEach((task) => {
-      //       console.log('here is the task in GET: ', task);
-      //       this.tasks.push({
-      //         task: task.task,
-      //         _id: task._id
-      //       });
-      //     })
-      //   })
-      // .catch((err) => {
-      //   console.error('here is the error: ', err);
-      // })
+      fetch('/api/tasks')
+        .then((res) => res.json())
+        .then((res) => {
+          res.forEach((task) => {
+            this.tasks.push({
+              task: task.task,
+              isEditing: task.isEditing,
+              _id: task._id
+            });
+          })
+        })
+      .catch((err) => {
+        console.error('here is the error: ', err);
+      })
   },
     components: {
       AddTask,

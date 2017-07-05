@@ -10,7 +10,6 @@
 <script>
   import AddTask from './addTask.vue'
   import TaskList from './taskList.vue'
-  import axios from 'axios'
   export default {
     props: ['tasks'],
     data() {
@@ -24,39 +23,29 @@
           task: task,
           isEditing: false
         }
-        this.tasks.push(task);
-        this.input = ''
-        axios.post('/api/tasks', {
-          body: JSON.stringify({task: task})
+        fetch('/api/tasks', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            task: task
+          })
         })
+        .then((res) => res.json())
         .then((res) => {
-          console.log('here is the res: ', res);
+          console.log('here is the res in POST: ', res);
+          this.tasks.push({
+            task: res.task,
+            isEditing: res.isEditing,
+            _id: res._id
+          });
+          this.input = '';
         })
         .catch((err) => {
-          console.error('here is the error: ', err);
+          console.error('here is the error in addTask: ', err);
         })
-        // fetch('/api/', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify({
-        //     task: task
-        //   })
-        // })
-        // .then((res) => res.json())
-        // .then((res) => {
-        //   console.log('here is the res in POST: ', res);
-        //   this.tasks.push({
-        //     task: res.task,
-        //     _id: res._id
-        //   });
-        //   this.input = '';
-        // })
-        // .catch((err) => {
-        //   console.error('here is the error in addTask: ', err);
-        // })
       }
     },
     components: {}

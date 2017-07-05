@@ -68,16 +68,16 @@
       },
       deleteTask: function(taskToDelete) {
         let deleted;
-        console.log(taskToDelete.task)
-        // fetch('/api/tasks/' + taskToDelete._id, {
-        //   method: 'DELETE',
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        //   }
-        // })
-        // .then((res) => res.json())
-        // .then((res) => {
+        console.log(taskToDelete)
+        fetch('/api/tasks/' + taskToDelete._id, {
+          method: 'DELETE',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        })
+        .then((res) => res.json())
+        .then((res) => {
           this.tasks.forEach(function(todo, i) {
             if (todo.task === taskToDelete.task) {
               deleted = i;
@@ -85,9 +85,9 @@
             }
           })
           this.tasks.splice(deleted, 1);
-        // })
+        })
       }
-    }
+    },
   }
 </script>
 
