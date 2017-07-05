@@ -48,27 +48,27 @@
         if (!this.input) {
           return alert('please enter a task');
         }
+        console.log('here is the task: ', this.task)
         this.task.task = this.input,
-        this.toggleEdit(this.task);
+        // this.toggleEdit(this.task);
         // task.isEditing = false;
-        // fetch('/api/tasks/' + task.task._id, {
-        //   method: 'PUT',
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json'
-        //   },
-        //   body: JSON.stringify({
-        //     task: task
-        //   })
-        // })
-        // .then((res) => res.json())
-        // .then((res) => {
-        //   this.toggleEdit(task);
-        // })
+        fetch('/api/tasks/' + this.task._id, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            task: this.input
+          })
+        })
+        .then((res) => res.json())
+        .then((res) => {
+          this.toggleEdit(this.task);
+        })
       },
       deleteTask: function(taskToDelete) {
         let deleted;
-        console.log(taskToDelete)
         fetch('/api/tasks/' + taskToDelete._id, {
           method: 'DELETE',
           headers: {
